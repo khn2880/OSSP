@@ -5,7 +5,7 @@ Made with PyGame
 
 import pygame, sys, time, random
 
-
+# 난이도 조절
 # Difficulty settings
 # Easy      ->  10
 # Medium    ->  25
@@ -14,10 +14,12 @@ import pygame, sys, time, random
 # Impossible->  120
 difficulty = 25
 
+# 창사이즈 조절
 # Window size
 frame_size_x = 720
 frame_size_y = 480
 
+# 에러 있는지 확인
 # Checks for errors encountered
 check_errors = pygame.init()
 # pygame.init() example output -> (6, 0)
@@ -28,12 +30,12 @@ if check_errors[1] > 0:
 else:
     print('[+] Game successfully initialised')
 
-
+# 기본창 설정
 # Initialise game window
-pygame.display.set_caption('Snake Eater')
+pygame.display.set_caption('Snake Eater') # 스크린 제목 표시
 game_window = pygame.display.set_mode((frame_size_x, frame_size_y))
 
-
+# 창 색 설정
 # Colors (R, G, B)
 black = pygame.Color(0, 0, 0)
 white = pygame.Color(255, 255, 255)
@@ -41,11 +43,11 @@ red = pygame.Color(255, 0, 0)
 green = pygame.Color(0, 255, 0)
 blue = pygame.Color(0, 0, 255)
 
-
+# 주사율(초당 몇 번의 이미지를 나타내는지)
 # FPS (frames per second) controller
 fps_controller = pygame.time.Clock()
 
-
+# 뱀, 먹이 등 기본 설정
 # Game variables
 snake_pos = [100, 50]
 snake_body = [[100, 50], [100-10, 50], [100-(2*10), 50]]
@@ -58,7 +60,7 @@ change_to = direction
 
 score = 0
 
-
+# 게임 오버 시 설정
 # Game Over
 def game_over():
     my_font = pygame.font.SysFont('times new roman', 90)
@@ -73,7 +75,7 @@ def game_over():
     pygame.quit()
     sys.exit()
 
-
+# 스코어 설정
 # Score
 def show_score(choice, color, font, size):
     score_font = pygame.font.SysFont(font, size)
@@ -86,7 +88,7 @@ def show_score(choice, color, font, size):
     game_window.blit(score_surface, score_rect)
     # pygame.display.flip()
 
-
+# 기본 게임 설정
 # Main logic
 while True:
     for event in pygame.event.get():
