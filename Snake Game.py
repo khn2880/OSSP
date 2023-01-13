@@ -55,6 +55,9 @@ snake_body = [[100, 50], [100-10, 50], [100-(2*10), 50]]
 food_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
 food_spawn = True
 
+food2_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+food2_spawn = True
+
 direction = 'RIGHT'
 change_to = direction
 
@@ -135,6 +138,9 @@ while True:
     if snake_pos[0] == food_pos[0] and snake_pos[1] == food_pos[1]:
         score += 1
         food_spawn = False
+    elif snake_pos[0] == food2_pos[0] and snake_pos[1] == food2_pos[1]:
+        score += 1
+        food2_spawn = False
     else:
         snake_body.pop()
 
@@ -142,6 +148,10 @@ while True:
     if not food_spawn:
         food_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
     food_spawn = True
+
+    if not food2_spawn:
+        food2_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+    food2_spawn = True
 
     # GFX
     game_window.fill(black)
@@ -153,6 +163,8 @@ while True:
 
     # Snake food
     pygame.draw.rect(game_window, white, pygame.Rect(food_pos[0], food_pos[1], 10, 10))
+
+    pygame.draw.rect(game_window, white, pygame.Rect(food2_pos[0], food2_pos[1], 10, 10))
 
     # Game Over conditions
     # Getting out of bounds
