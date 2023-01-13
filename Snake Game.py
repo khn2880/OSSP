@@ -73,6 +73,7 @@ def game_over():
     game_window.fill(black)
     game_window.blit(game_over_surface, game_over_rect)
     show_score(0, red, 'times', 20)
+    show_time(0, red, 'times', 20)
     pygame.display.flip()
     time.sleep(3)
     pygame.quit()
@@ -87,9 +88,21 @@ def show_score(choice, color, font, size):
     if choice == 1:
         score_rect.midtop = (frame_size_x/10, 15)
     else:
-        score_rect.midtop = (frame_size_x/2, frame_size_y/1.25)
+        score_rect.midtop = (frame_size_x/3, frame_size_y/1.25)
     game_window.blit(score_surface, score_rect)
     # pygame.display.flip()
+
+# 시간 추가
+def show_time(choice, color, font, size):
+    time = pygame.time.get_ticks() // 1000
+    time_font = pygame.font.SysFont(font, size)
+    time_surface = time_font.render('TIME : ' + str(time) + 's', True, color)
+    time_rect = time_surface.get_rect()
+    if choice == 1:
+        time_rect.midtop = (frame_size_x / 3, 15)
+    else:
+        time_rect.midtop = (frame_size_x/1.5, frame_size_y/1.25)
+    game_window.blit(time_surface, time_rect)
 
 # 기본 게임 설정
 # Main logic
@@ -178,6 +191,7 @@ while True:
             game_over()
 
     show_score(1, white, 'consolas', 20)
+    show_time(1, white, 'consolas', 20)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
