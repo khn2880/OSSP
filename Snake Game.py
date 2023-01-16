@@ -61,6 +61,10 @@ food2_spawn = True
 food3_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
 food3_spawn = True
 
+# 폭탄에 닿으면 게임오버 설정
+bomb_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+bomb_spawn = True
+
 direction = 'RIGHT'
 change_to = direction
 
@@ -173,6 +177,9 @@ while True:
     if not food3_spawn:
         food3_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
     food3_spawn = True
+    if not bomb_spawn:
+        bomb_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+    bomb_spawn = True
 
     # GFX
     game_window.fill(black)
@@ -189,12 +196,17 @@ while True:
 
     pygame.draw.rect(game_window, white, pygame.Rect(food3_pos[0], food3_pos[1], 10, 10))
 
+    pygame.draw.rect(game_window, red, pygame.Rect(bomb_pos[0], bomb_pos[1], 10, 10))
+
     # Game Over conditions
     # Getting out of bounds
     if snake_pos[0] < 0 or snake_pos[0] > frame_size_x-10:
         game_over()
     if snake_pos[1] < 0 or snake_pos[1] > frame_size_y-10:
         game_over()
+    if snake_pos[0] == bomb_pos[0] and snake_pos[1] == bomb_pos[1]:
+        game_over()
+
     # Touching the snake body
     for block in snake_body[1:]:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
