@@ -42,6 +42,7 @@ white = pygame.Color(255, 255, 255)
 red = pygame.Color(255, 0, 0)
 green = pygame.Color(0, 255, 0)
 blue = pygame.Color(0, 0, 255)
+yellow = pygame.Color(255, 255, 0)
 
 # 주사율(초당 몇 번의 이미지를 나타내는지)
 # FPS (frames per second) controller
@@ -64,6 +65,10 @@ food3_spawn = True
 # 폭탄 블록 설치
 bomb_pos = [random.randrange(1, (frame_size_x // 10)) * 10, random.randrange(1, (frame_size_y // 10)) * 10]
 bomb_spawn = True
+
+# 장애물 블록 설치
+barrier_pos = [random.randrange(1, (frame_size_x // 10)) * 10, random.randrange(1, (frame_size_y // 10)) * 10]
+barrier_spawn = True
 
 direction = 'RIGHT'
 change_to = direction
@@ -167,6 +172,15 @@ while True:
     else:
         snake_body.pop()
 
+    # 장애물에 부딪히면 1점 감점 & 뱀의 몸 길이가 1 줄어듦
+    if snake_pos[0] == barrier_pos[0] and snake_pos[1] == barrier_pos[1]:
+        score -= 1
+        snake_body.pop()
+        barrier_spawn = False
+        # 점수가 마이너스이면 게임종료
+        if score < 0:
+            game_over()
+
     # 3초가 지나면 폭탄 이동
     ttime = pygame.time.get_ticks() / 1000
     tttime = int(ttime % 3)
@@ -188,6 +202,9 @@ while True:
     if not food3_spawn:
         food3_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
     food3_spawn = True
+    if not barrier_spawn:
+        barrier_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+    barrier_spawn = True
 
     # GFX
     game_window.fill(black)
@@ -205,6 +222,8 @@ while True:
     pygame.draw.rect(game_window, white, pygame.Rect(food3_pos[0], food3_pos[1], 10, 10))
 
     pygame.draw.rect(game_window, red, pygame.Rect(bomb_pos[0], bomb_pos[1], 10, 10))
+
+    pygame.draw.rect(game_window, yellow, pygame.Rect(barrier_pos[0], barrier_pos[1], 10, 10))
 
     # Game Over conditions
     # Getting out of bounds
