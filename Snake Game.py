@@ -61,8 +61,8 @@ food2_spawn = True
 food3_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
 food3_spawn = True
 
-# 폭탄에 닿으면 게임오버 설정
-bomb_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+# 폭탄 블록 설치
+bomb_pos = [random.randrange(1, (frame_size_x // 10)) * 10, random.randrange(1, (frame_size_y // 10)) * 10]
 bomb_spawn = True
 
 direction = 'RIGHT'
@@ -167,6 +167,17 @@ while True:
     else:
         snake_body.pop()
 
+    # 3초가 지나면 폭탄 이동
+    ttime = pygame.time.get_ticks() / 1000
+    tttime = int(ttime % 3)
+    if tttime == 0:
+        bomb_spawn = False
+    else:
+        if not bomb_spawn:
+            bomb_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+        bomb_spawn = True
+
+
     # Spawning food on the screen
     if not food_spawn:
         food_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
@@ -177,9 +188,6 @@ while True:
     if not food3_spawn:
         food3_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
     food3_spawn = True
-    if not bomb_spawn:
-        bomb_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
-    bomb_spawn = True
 
     # GFX
     game_window.fill(black)
@@ -204,6 +212,8 @@ while True:
         game_over()
     if snake_pos[1] < 0 or snake_pos[1] > frame_size_y-10:
         game_over()
+
+    # 폭탄에 닿으면 게임오버 설정
     if snake_pos[0] == bomb_pos[0] and snake_pos[1] == bomb_pos[1]:
         game_over()
 
