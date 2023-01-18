@@ -70,6 +70,9 @@ bomb_spawn = True
 barrier_pos = [random.randrange(1, (frame_size_x // 10)) * 10, random.randrange(1, (frame_size_y // 10)) * 10]
 barrier_spawn = True
 
+barrier2_pos = [random.randrange(1, (frame_size_x // 10)) * 10, random.randrange(1, (frame_size_y // 10)) * 10]
+barrier2_spawn = True
+
 direction = 'RIGHT'
 change_to = direction
 
@@ -181,6 +184,14 @@ while True:
         if score < 0:
             game_over()
 
+    if snake_pos[0] == barrier2_pos[0] and snake_pos[1] == barrier2_pos[1]:
+        score -= 1
+        snake_body.pop()
+        barrier2_spawn = False
+        # 점수가 마이너스이면 게임종료
+        if score < 0:
+            game_over()
+
     # 3초가 지나면 폭탄 이동
     ttime = pygame.time.get_ticks() / 1000
     tttime = int(ttime % 3)
@@ -205,6 +216,9 @@ while True:
     if not barrier_spawn:
         barrier_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
     barrier_spawn = True
+    if not barrier2_spawn:
+        barrier2_pos = [random.randrange(1, (frame_size_x//10)) * 10, random.randrange(1, (frame_size_y//10)) * 10]
+    barrier2_spawn = True
 
     # GFX
     game_window.fill(black)
@@ -224,6 +238,8 @@ while True:
     pygame.draw.rect(game_window, red, pygame.Rect(bomb_pos[0], bomb_pos[1], 10, 10))
 
     pygame.draw.rect(game_window, yellow, pygame.Rect(barrier_pos[0], barrier_pos[1], 10, 10))
+
+    pygame.draw.rect(game_window, yellow, pygame.Rect(barrier2_pos[0], barrier2_pos[1], 10, 10))
 
     # Game Over conditions
     # Getting out of bounds
